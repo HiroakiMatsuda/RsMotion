@@ -107,13 +107,15 @@ class TkRsMotion():
             self.on_flag[id] = 0
 
     def write_command(self, position, id):
-        self.out_port([0, id, int(position), 10])
+        self.out_port([0, id, int(position), self.servo_time])
         self.write_text()
         
     def read_inifile(self, path):
         conf = Conf.SafeConfigParser()
         conf.read(path)
         servo_num = int(conf.get('SERVO', 'servo_num'))
+        self.servo_time = int(conf.get('SERVO', 'move_time'))
+        
         servo_data = []
         for i in range(servo_num):
             servo_temp = []
